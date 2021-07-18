@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import YoutubeVideosContext from '../state/YoutubeVideosContext';
 
 const RelatedVideoItem = (props) => {
+  const { dispatch } = useContext(YoutubeVideosContext);
+  const setVideoSelected = (videoSelected) => {
+    dispatch({ type: 'SET_VIDEOSELECTED', payload: videoSelected });
+  };
+
   return (
     <>
       <Card
         onClick={() =>
-          props.onSelectVideo({
+          setVideoSelected({
             id: props.id,
             title: props.title,
             description: props.description,

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import YoutubeVideosContext from '../state/YoutubeVideosContext';
 import Menu from './Menu';
 import SearchBar from './SearchBar';
 
@@ -13,24 +14,34 @@ const Button = styled.button`
   background: ${(props) => props.color};
   color: white;
   border: 2px solid white;
+  cursor: pointer;
 `;
 
-const Header = (props) => {
+const Header = () => {
+  const { state, dispatch } = useContext(YoutubeVideosContext);
+  const { theme } = state;
+
+  const changeTheme = () => {
+    dispatch({ type: 'CHANGE_THEME' });
+  };
+
   return (
     <>
-      <NavHead>
+      <NavHead backg={theme.NavHeadBackground}>
         <Section>
           <HeaderItem>
             <Menu />
           </HeaderItem>
 
           <HeaderItem>
-            <SearchBar onSetKeyword={props.updateInput} />
+            <SearchBar />
           </HeaderItem>
         </Section>
         <Section>
           <HeaderItem>
-            <Button color="firebrick">Dark Mode</Button>
+            <Button color="firebrick" onClick={changeTheme}>
+              Dark Mode
+            </Button>
           </HeaderItem>
           <HeaderItem>
             <Button color="transparent">Login</Button>
@@ -47,7 +58,7 @@ const NavHead = styled.div`
   justify-content: space-between;
 
   padding: 10px;
-  background-color: #d84c4a;
+  background-color: ${(props) => props.backg};
   @media (max-width: 800px) {
     flex-direction: column;
   }
